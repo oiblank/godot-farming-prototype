@@ -68,7 +68,7 @@ func _input(event):
 			Shovel_Hover.set_opacity(0)
 			Water_Hover.set_opacity(0)
 	###	ON MOUSE CLICK, GET TILE
-	if Input.is_action_just_pressed("MOUSE_LEFT"):
+	if event.type == InputEvent.MOUSE_BUTTON and event.pressed and event.button_index == BUTTON_LEFT:
 		var mouse_pos = get_global_mouse_pos()
 		var tile_pos = world_to_map(mouse_pos)
 		var tile = get_cellv(tile_pos)
@@ -92,7 +92,7 @@ func _input(event):
 				var timer = Timer.new()
 				add_child(timer)
 				timer.connect("timeout", self, "_on_Dug_timeout", [tile_pos, timer])
-				timer.set_wait_time(3)
+				timer.set_wait_time(10)
 				timer.set_one_shot(true)
 				timer.start()
 			### IF TILE IS DUG UP AND WE ADD WATER
@@ -155,7 +155,7 @@ func _input(event):
 					instanced_Fence.set_global_pos(map_to_world(tile_pos))
 			
 		
-	
+
 ###	ON DUG TILE
 func _on_Dug_timeout(tile_pos, timer):
 	if get_cellv(tile_pos) == Dug:
